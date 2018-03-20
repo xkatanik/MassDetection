@@ -152,6 +152,27 @@
                     <groupId>com.google.code.findbugs</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
+
+
+
+
+                <exclusion>
+                    <groupId>mzmine</groupId>
+                    <artifactId>macspecificsetup</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mzmine</groupId>
+                    <artifactId>jmprojection</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mzmine</groupId>
+                    <artifactId>gslibml</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>mzmine</groupId>
+                    <artifactId>visad</artifactId>
+                </exclusion>
+
             </exclusions>
         </dependency>
     <!--    <dependency>
