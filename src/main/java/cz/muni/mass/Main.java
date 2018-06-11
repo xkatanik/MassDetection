@@ -42,11 +42,14 @@ public class Main {
         Boolean isCentroid = false;
 
         Options options = setOptions();
+        String header = "";
+        String footer = "Created by Kristian Katanik, version 1.1.";
 
         if (args.length == 0) {
             HelpFormatter helpFormatter = new HelpFormatter();
             helpFormatter.setOptionComparator(null);
-            helpFormatter.printHelp("MassDetection module help.", options);
+            helpFormatter.printHelp("MassDetection module help.", header, options, footer, true);
+            System.exit(1);
             return;
         }
 
@@ -59,11 +62,12 @@ public class Main {
                 if (arg.equals("-h") || arg.equals("--help")) {
                     HelpFormatter helpFormatter = new HelpFormatter();
                     helpFormatter.setOptionComparator(null);
-                    helpFormatter.printHelp("MassDetection module help.", options);
-                    return;
+                    helpFormatter.printHelp("MassDetection module help.", header, options, footer, true);
+                    System.exit(1);
                 }
             }
             System.err.println("Some of the required parameters or their arguments are missing. Use -h or --help for help.");
+            System.exit(1);
             return;
         }
 
@@ -75,25 +79,20 @@ public class Main {
             isCentroid = true;
         }
 
-        if (isCentroid) {
-            try {
-                noiseLevel = Double.parseDouble(commandLine.getOptionValue("nl"));
-            } catch (NumberFormatException e) {
-                System.err.println("Wrong format of noiseLevel value. Value has to be number in double format.");
-                return;
-            }
-        } else {
-            try {
-                noiseLevel = Double.parseDouble(commandLine.getOptionValue("nl"));
-            } catch (NumberFormatException e) {
-                System.err.println("Wrong format of noiseLevel value. Value has to be number in double format.");
-                return;
-            }
+        try {
+            noiseLevel = Double.parseDouble(commandLine.getOptionValue("nl"));
+        } catch (NumberFormatException e) {
+            System.err.println("Wrong format of noiseLevel value. Value has to be number in double format.");
+            System.exit(1);
+            return;
+        }
+        if(!isCentroid){
             if (commandLine.hasOption("sc")) {
                 try {
                     scaleLevel = Integer.parseInt(commandLine.getOptionValue("sl"));
                 } catch (NumberFormatException e) {
                     System.err.println("Wrong format of scaleLevel value. Value has to be number in integer format.");
+                    System.exit(1);
                     return;
                 }
             }
@@ -103,6 +102,7 @@ public class Main {
                     windowSize = windowSize / 100;
                 } catch (NumberFormatException e) {
                     System.err.println("Wrong format of windowSize value. Value has to be number in double format.");
+                    System.exit(1);
                     return;
                 }
 
@@ -115,6 +115,7 @@ public class Main {
             inputFile = new File(inputFileName);
         } catch (NullArgumentException e) {
             System.err.println("Unable to load input file.");
+            System.exit(1);
             return;
         }
 
@@ -123,11 +124,13 @@ public class Main {
             outputFile = new File(outputFileName);
         } catch (NullArgumentException e) {
             System.err.println("Unable to create/load output file.");
+            System.exit(1);
             return;
         }
 
         if (!inputFile.exists() || inputFile.isDirectory()) {
             System.err.println("Unable to load input/output file.");
+            System.exit(1);
             return;
         }
 
